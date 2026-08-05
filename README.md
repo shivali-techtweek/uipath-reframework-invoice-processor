@@ -47,3 +47,25 @@ transaction failed and why.
 | Application exception | Document Understanding confidence below threshold | Routed to a validation queue instead of auto-processed |
 
 ## Architecture
+Init → Get Transaction Data → Process Transaction → [Success/Business Exception/System Exception]
+↑ |
+└──────────────────────────────────────────────┘
+(loop until queue empty)
+↓
+End Process
+## Tech stack
+
+UiPath Studio · REFramework template · Document Understanding · Excel/Data Table activities ·
+Orchestrator (queue-ready, logging-ready)
+
+## Process Design Document (summary)
+
+**In scope**: PDF invoice ingestion, field extraction, rule-based validation, structured output
+**Out of scope**: Payment execution, vendor communication (handoff points only)
+**SLA target**: <2 min per invoice, 99%+ extraction accuracy on clean-format PDFs
+**Escalation path**: Business exceptions → review queue; system exceptions → on-call alert
+
+---
+
+*This is a practice/demo build using synthetic sample invoices — not client production code.
+Built to demonstrate REFramework architecture and transaction-level reliability patterns.*
